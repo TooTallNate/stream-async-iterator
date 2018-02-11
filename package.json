@@ -1,14 +1,16 @@
 {
   "name": "stream-async-iterator",
   "version": "1.0.0",
-  "description": "",
+  "description": "Turns a Readable Stream into an Async Iterator",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "async",
+    "iterator",
+    "readable",
+    "stream"
+  ],
+  "author": "Nathan Rajlich <n@n8.io>",
+  "license": "MIT",
   "dependencies": {
     "event-to-promise": "^0.8.0"
   }
