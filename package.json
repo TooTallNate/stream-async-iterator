@@ -12,6 +12,7 @@
   "author": "Nathan Rajlich <n@n8.io>",
   "license": "MIT",
   "dependencies": {
+    "debug": "^3.1.0",
     "event-to-promise": "^0.8.0"
   }
 }

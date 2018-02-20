@@ -1,23 +1,30 @@
 const once = require('event-to-promise');
+const debug = require('debug')('stream-async-iterator');
 
 module.exports = function createAsyncIterator(stream) {
-  let readable = false;
+  let ended = false;
 
-  function onReadable() {
-    readable = true;
+  function onEnd() {
+    debug('"end" event');
+    ended = true;
   }
 
   async function next() {
-    if (!readable) {
-      await once(stream, 'readable');
-    }
     const value = stream.read();
-    readable = false;
-    const done = value === null;
+    if (value === null && !ended) {
+      debug('waiting for "readable" or "end"');
+      await Promise.race([
+        once(stream, 'readable'),
+        endPromise
+      ]);
+      return next();
+    }
+    const done = value === null && ended;
     return { done, value };
   }
 
-  stream.on('readable', onReadable);
+  const endPromise = once(stream, 'end');
+  endPromise.then(onEnd);
 
   return {
     next
