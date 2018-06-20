@@ -26,7 +26,9 @@ module.exports = function createAsyncIterator(stream) {
   const endPromise = once(stream, 'end');
   endPromise.then(onEnd);
 
-  return {
-    next
-  };
+  const it = { next };
+  if (Symbol.asyncIterator) {
+    it[Symbol.asyncIterator] = () => it;
+  }
+  return it;
 }
